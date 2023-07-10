@@ -1,1 +1,0 @@
-# voishimk.github.io
