@@ -9,50 +9,54 @@ const usuarios = [
 
 //AGREGAR USUARIO
 function agregarUsuario() {
-    var username = document.getElementById('usernameR').value;
-    var password = document.getElementById('passwordR').value;
-    var roleBox = document.getElementById('roleComboBox');
-    var selectedRole = roleBox.options[roleBox.selectedIndex].value; //obtiene el valor seleccionado de un combo box en HTML.
-    var role = selectedRole.toLowerCase(); 
+  var username = document.getElementById('usernameR').value;
+  var password = document.getElementById('passwordR').value;
+  var roleBox = document.getElementById('roleComboBox');
+  var selectedRole = roleBox.options[roleBox.selectedIndex].value; //obtiene el valor seleccionado de un combo box en HTML.
+  var role = selectedRole.toLowerCase(); 
 
-    // Crear un nuevo objeto de usuario
-    var nuevoUsuario = {
-      username: username,
-      password: password,
-      role: role
-    };
+  // Crear un nuevo objeto de usuario
+  var nuevoUsuario = {
+    username: username,
+    password: password,
+    role: role
+  };
 
-    // Validar campos vacíos
-    if (username === '' || password === '') {
-        alert('Por favor, completa todos los campos.');
-        return;
-    }
+  // Validar campos vacíos
+  if (username === '' || password === '') {
+    alert('Por favor, completa todos los campos.');
+    return;
+  }
 
-    // Validar formato del correo electrónico
-    if (!username.includes('@')) {
-        alert('Ingrese un correo válido.');
-        return;
-    }
+  // Validar formato del correo electrónico
+  if (!username.includes('@')) {
+    alert('Ingrese un correo válido.');
+    return;
+  }
 
-    // Agregar el nuevo usuario a la lista
-    usuarios.push(nuevoUsuario);
+  // Obtener la lista de usuarios del localStorage
+  var userList = localStorage.getItem('usuarios');
+  var usuarios = userList ? JSON.parse(userList) : [];
 
-    // Mostrar la lista actualizada en la consola
-    
-    console.log(usuarios);
-    
-    // Cerrar el modal
-    var modal = document.getElementById('registro-modal');
-    var bootstrapModal = bootstrap.Modal.getInstance(modal);
-    bootstrapModal.hide();
+  // Agregar el nuevo usuario a la lista
+  usuarios.push(nuevoUsuario);
 
-    // Mostrar el mensaje de registro exitoso
-    var toastElement = document.getElementById('toastRegistro');
-    var bootstrapToast = new bootstrap.Toast(toastElement);
-    bootstrapToast.show();
-    
+  // Guardar la lista actualizada en el localStorage
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+  // Mostrar la lista actualizada en la consola
+  console.log(usuarios);
+
+  // Cerrar el modal
+  var modal = document.getElementById('registro-modal');
+  var bootstrapModal = bootstrap.Modal.getInstance(modal);
+  bootstrapModal.hide();
+
+  // Mostrar el mensaje de registro exitoso
+  var toastElement = document.getElementById('toastRegistro');
+  var bootstrapToast = new bootstrap.Toast(toastElement);
+  bootstrapToast.show();
 }
-
 
 
 // Obtener el formulario de inicio de sesión y el contenedor de mensajes de error
@@ -67,7 +71,11 @@ loginForm.addEventListener('submit', (e) => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // Buscar el usuario en la estructura de datos
+    // Obtener la lista de usuarios del localStorage
+    var userList = localStorage.getItem('usuarios');
+    var usuarios = userList ? JSON.parse(userList) : [];
+
+    // Buscar el usuario en la lista
     const usuario = usuarios.find((user) => user.username === username && user.password === password);
 
     if (usuario) {
@@ -88,6 +96,7 @@ loginForm.addEventListener('submit', (e) => {
         errorContainer.textContent = 'Credenciales inválidas'; // Mostrar mensaje de error
     }
 });
+
 
 // Verificar el rol del usuario almacenado en el almacenamiento local
 const userRole = localStorage.getItem('role');
