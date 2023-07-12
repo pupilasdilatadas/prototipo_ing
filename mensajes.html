@@ -16,37 +16,44 @@
     <div id="header-container" style="border-bottom: solid #FF9000;"></div>
 
     <main>
-        <div id="chat-1" class="chat-container">
-            <h2>Chat 1</h2>
-            <ul class="chat-messages"></ul>
-            <form class="message-form">
-                <input type="text" class="message-input" placeholder="Escribe tu mensaje..." required>
-                <button type="submit">Enviar</button>
-            </form>
-        </div>
-        <div id="chat-2" class="chat-container">
-            <h2>Chat 2</h2>
-            <ul class="chat-messages"></ul>
-            <form class="message-form">
-                <input type="text" class="message-input" placeholder="Escribe tu mensaje..." required>
-                <button type="submit">Enviar</button>
-            </form>
-        </div>
-        <div id="chat-3" class="chat-container">
-            <h2>Chat 3</h2>
-            <ul class="chat-messages"></ul>
-            <form class="message-form">
-                <input type="text" class="message-input" placeholder="Escribe tu mensaje..." required>
-                <button type="submit">Enviar</button>
-            </form>
-        </div>
-        <div id="chat-4" class="chat-container">
-            <h2>Chat 4</h2>
-            <ul class="chat-messages"></ul>
-            <form class="message-form">
-                <input type="text" class="message-input" placeholder="Escribe tu mensaje..." required>
-                <button type="submit">Enviar</button>
-            </form>
+
+        <div class="row">
+            <div class="col-md-4 m-0 p-0">
+                <!-- Columna izquierda - Lista de chats -->
+                <div class="chat-list">
+                    <!-- Aquí puedes agregar la lista de chats -->
+                    <div id="chat-1" class="bg-dark-subtle" style="border: solid #FF9000;">
+                        <h2>Severus Snape</h2><br><br>
+                    </div>
+                    <div id="chat-2" class="" style="border: solid #FF9000;">
+                        <h2>Harry Potter</h2><br><br><br>
+                    </div>
+                    <div id="chat-3" class="" style="border: solid #FF9000;">
+                        <h2>Albus Dombuldore</h2> <br><br><br>
+                    </div>
+                    <div id="chat-4" class="" style="border: solid #FF9000;">
+                        <h2>Bingus</h2>
+                        </form>
+                        <br><br><br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 m-0 p-0">
+                <!-- Columna derecha - Chat seleccionado -->
+                <div class="chat-selected">
+                    <!-- Aquí puedes mostrar el chat seleccionado -->
+                    <div id="chat-1" class="chat-container bg-dark-subtle">
+                        <h2>Severus Snape</h2><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                        <ul class="chat-messages" style="text-align: left;">Bienvenido a nuestra gran sede donde
+                            aprenderas y divertiras en un
+                            mundo lleno de magia!</ul>
+                        <form class="message-form">
+                            <input type="text" class="message-input" placeholder="Escribe tu mensaje..." required>
+                            <button type="submit">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </main>
@@ -69,7 +76,54 @@
             loadComponent("headerAlumno.html", "header-container", "navbar-mensajes", "active");
         }
         loadComponent("footer.html", "footer-container", "");
+
+
+        const chatContainers = document.querySelectorAll('.chat-container');
+
+        // Agrega un evento de clic para cada contenedor de chat
+        chatContainers.forEach((container) => {
+            const chatMessages = container.querySelector('.chat-messages');
+            const messageForm = container.querySelector('.message-form');
+            const messageInput = container.querySelector('.message-input');
+
+            // Agrega un evento de escucha para el envío del formulario de mensajes
+            messageForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Obtén el texto del mensaje ingresado por el usuario
+                const messageText = messageInput.value;
+
+                // Crea un nuevo elemento <li> con el mensaje y agrega al chat
+                const messageItem = document.createElement('li');
+                messageItem.textContent = messageText;
+                messageItem.classList.add('my-message');
+                chatMessages.appendChild(messageItem);
+
+                // Restablece el campo de entrada de texto
+                messageInput.value = '';
+
+                // Simular respuesta de Severus Snape
+                if (container.id === 'chat-1') {
+                    setTimeout(function () {
+                        const responseItem = document.createElement('li');
+                        responseItem.textContent = 'De nada, para más información dirigete al meson de informaciones magicas!';
+                        chatMessages.appendChild(responseItem);
+                    }, 1000);
+                }
+            });
+        });
     </script>
+    <style>
+        .my-message {
+            text-align: right;
+            background-color: #DCF8C6;
+        }
+
+        .snape-message {
+            text-align: left;
+            background-color: #F4F4F4;
+        }
+    </style>
 </body>
 
 </html>
