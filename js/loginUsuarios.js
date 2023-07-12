@@ -1,11 +1,16 @@
-
-const usuarios = [
+if (!localStorage.getItem('usuarios')) {
+  // Crear la lista de usuarios por defecto
+  var usuarios = [
     { username: 'administrador1@duocuc.cl', password: 'admin', role: 'admin' },
     { username: 'josa.morales@duocuc.cl', password: '123456', role: 'alumno' },
     { username: 'decano.albus@duocuc.cl', password: '12345678', role: 'decano' },
-    { username: 'profesor.superprofe@duocuc.cl', password: '55515', role: 'profesor' },
+    { username: 'profesor.superprofe@duocuc.cl', password: '55515', role: 'profesor' }
     // Otros usuarios...
-];
+  ];
+
+  // Guardar la lista de usuarios en el localStorage
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+}
 
 //AGREGAR USUARIO
 function agregarUsuario() {
@@ -13,7 +18,7 @@ function agregarUsuario() {
   var password = document.getElementById('passwordR').value;
   var roleBox = document.getElementById('roleComboBox');
   var selectedRole = roleBox.options[roleBox.selectedIndex].value; //obtiene el valor seleccionado de un combo box en HTML.
-  var role = selectedRole.toLowerCase(); 
+  var role = selectedRole.toLowerCase();
 
   // Crear un nuevo objeto de usuario
   var nuevoUsuario = {
@@ -65,36 +70,36 @@ const errorContainer = document.getElementById('login-error');
 
 // Escuchar el evento de envío del formulario de inicio de sesión
 loginForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // Evitar el envío del formulario
+  e.preventDefault(); // Evitar el envío del formulario
 
-    // Obtener los valores de usuario y contraseña ingresados
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+  // Obtener los valores de usuario y contraseña ingresados
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
 
-    // Obtener la lista de usuarios del localStorage
-    var userList = localStorage.getItem('usuarios');
-    var usuarios = userList ? JSON.parse(userList) : [];
+  // Obtener la lista de usuarios del localStorage
+  var userList = localStorage.getItem('usuarios');
+  var usuarios = userList ? JSON.parse(userList) : [];
 
-    // Buscar el usuario en la lista
-    const usuario = usuarios.find((user) => user.username === username && user.password === password);
+  // Buscar el usuario en la lista
+  const usuario = usuarios.find((user) => user.username === username && user.password === password);
 
-    if (usuario) {
-        // Inicio de sesión exitoso
-        errorContainer.textContent = ''; // Limpiar el mensaje de error
+  if (usuario) {
+    // Inicio de sesión exitoso
+    errorContainer.textContent = ''; // Limpiar el mensaje de error
 
-        // Guardar el rol del usuario en el almacenamiento local (local storage)
-        localStorage.setItem('role', usuario.role);
+    // Guardar el rol del usuario en el almacenamiento local (local storage)
+    localStorage.setItem('role', usuario.role);
 
-        // Redireccionar a la página correspondiente según el rol del usuario
-        if (usuario.role === 'admin') {
-            window.location.href = 'inicio.html'; // Redireccionar al panel del administrador
-        } else {
-            window.location.href = 'inicio.html'; // Redireccionar a la página del alumno
-        }
+    // Redireccionar a la página correspondiente según el rol del usuario
+    if (usuario.role === 'admin') {
+      window.location.href = 'inicio.html'; // Redireccionar al panel del administrador
     } else {
-        // Inicio de sesión fallido
-        errorContainer.textContent = 'Credenciales inválidas'; // Mostrar mensaje de error
+      window.location.href = 'inicio.html'; // Redireccionar a la página del alumno
     }
+  } else {
+    // Inicio de sesión fallido
+    errorContainer.textContent = 'Credenciales inválidas'; // Mostrar mensaje de error
+  }
 });
 
 
